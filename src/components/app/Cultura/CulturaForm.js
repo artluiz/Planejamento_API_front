@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -16,26 +17,79 @@ import axios from 'axios';
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
-    
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const formData = {
-            nome: data.get('nome'),
-            preco_venda: data.get('preco_venda'),
-            embalagem_venda: data.get('embalagem_venda'),
-          };
+export default function CulturaCRUD(request, id) {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    console.log(id);
+    axios.get(`http://localhost:8080/cultura/${id}`)
+      .then(response => {
+        console.log(response.data);
+        setData(response.data)
+      })
+      .catch(error => {
+        console.error('Erro ao carregar os dados da API:', error);
+      });
+  }, [id]);
 
-        axios.post('http://localhost:8080/cultura', formData)
-            .then((response) => {
-            console.log('Dados atualizados com sucesso:', response.data);
-            })
-            .catch((error) => {
-            console.error('Erro ao atualizar dados:', error);
-        });
-        window.location.reload();
-      };
+  const handleSubmit = (event) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const formData = {
+          id: data.get('id'),
+          nome: data.get('nome'),
+          preco_venda: data.get('preco_venda'),
+          embalagem_venda: data.get('embalagem_venda'),
+        };
+      switch (request){
+          case 'post':
+              axios.post(`http://localhost:8080/cultura/${id}`, formData)
+                .then((response) => {
+                console.log('Dados cadastrados com sucesso:', response.data);
+                })
+                .catch((error) => {
+                console.error('Erro ao cadastrar dados:', error);
+            });
+            window.location.reload();
+          break;
+
+          case 'put':
+              axios.put(`http://localhost:8080/cultura/${id}`, formData)
+                .then((response) => {
+                console.log('Dados atualizados com sucesso:', response.data);
+                })
+                .catch((error) => {
+                console.error('Erro ao atualizar dados:', error);
+            });
+            window.location.reload();
+
+          break;
+
+          case 'delete':
+              axios.delete(`http://localhost:8080/cultura/inativar/${id}`, formData)
+                .then((response) => {
+                console.log('Dados atualizados com sucesso:', response.data);
+                })
+                .catch((error) => {
+                console.error('Erro ao atualizar dados:', error);
+            });
+            window.location.reload();
+
+          break;
+
+          default:
+            axios.get(`http://localhost:8080/cultura/${id}`)
+                .then(response => {
+                  console.log(response.data);
+                  setData(response.data)
+                })
+                .catch(error => {
+                  console.error('Erro ao carregar os dados da API:', error);
+                });
+
+          break;
+      }
+      
+    };
 
   return (
   <React.Fragment>
@@ -54,10 +108,25 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Cadastro Cultura
+          {request === 'get' ? 'Cultura' : null}
+          {request === 'put' ? 'Atualizar Cultura' : null}
+          {request === 'delete' ? 'Apagar Cultura' : null}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <TextField
+                  name="id"
+                  required
+                  fullWidth
+                  id="id"
+                  label="Id"
+                  autoComplete = '0'
+                  InputProps={{
+                    readOnly: request === "get" ? true: false,
+                  }}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   name="nome"
@@ -66,7 +135,10 @@ export default function SignUp() {
                   id="nome"
                   label="Nome"
                   autoFocus
-                  autoComplete="Nome"
+                  autoComplete={request === "post" ? "Nome": data.nome}
+                  InputProps={{
+                    readOnly: request === "get" ? true: false,
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -76,7 +148,10 @@ export default function SignUp() {
                   id="preco_venda"
                   label="Preço de Venda"
                   name="preco_venda"
-                  autoComplete="0"
+                  autoComplete={request === "post" ? "0": data.preco_venda}
+                  InputProps={{
+                    readOnly: request === "get" ? true: false,
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -87,19 +162,25 @@ export default function SignUp() {
                   label="Embalagem"
                   type="embalagem_venda"
                   id="embalagem_venda"
-                  autoComplete="saco"
+                  autoComplete={request === "post" ? "": data.embalagem_venda}
+                  InputProps={{
+                    readOnly: request === "get" ? true: false,
+                  }}
                 />
               </Grid>
             </Grid>
             {/*<Link to={`/Cultura/PostPage`} style={{ textDecoration: 'none' }}></Link>*/}
+            if (request !== 'get') {
             <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
             >
-            Cadastrar
+              {request === 'put' ? 'Atualizar Cultura' : null}
+              {request === 'delete' ? 'Apagar Cultura' : null}
             </Button>
+            }
             
           </Box>
         </Box>

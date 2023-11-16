@@ -18,7 +18,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, SecondaryListItems } from '../listItems';
-import CulturaTable from '../Cultura/CulturaTable';
 import CulturaForm from '../Cultura/CulturaForm';
 import PlantioTable from '../Plantio/PlantioTable';
 import PlantioForm from '../Plantio/PlantioForm';
@@ -202,7 +201,6 @@ export default function PostPage(pagina) {
               {/* Recent CulturaTable */}
               <Grid item xs={18}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  {pagina === 'Cultura' ? <CulturaTable /> : null}
                   {pagina === 'Plantio' ? <PlantioTable /> : null}
                   {pagina === 'Planejamento' ? <PlanejamentoTable /> : null}
                   {pagina === 'Tipo' ? <TipoTable /> : null}

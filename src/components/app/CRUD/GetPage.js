@@ -18,7 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, SecondaryListItems } from '../listItems';
-import CulturaTable from '../Cultura/CulturaTable';
+import CulturaHome from '../Cultura/PrincipalCultura';
 import PlantioTable from '../Plantio/PlantioTable';
 import TipoTable from '../Tipo/TipoTable';
 import PlanejamentoTable from '../Planejamento/PlanejamentoTable';
@@ -36,7 +36,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -168,7 +167,7 @@ export default function GetPage(pagina) {
               {/* Recent CulturaTable */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  {pagina === 'Cultura' ? <CulturaTable /> : null}
+                  {pagina === 'Cultura' ? <CulturaHome /> : null}
                   {pagina === 'Plantio' ? <PlantioTable /> : null}
                   {pagina === 'Insumo' ? InsumoSelect(0)  : null}
                   {pagina === 'Planejamento' ? <PlanejamentoTable /> : null}
