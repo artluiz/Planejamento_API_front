@@ -21,7 +21,7 @@ export default function Orders() {
     axios.get('http://localhost:8080/cultura')
       .then(response => {
         console.log(response.data);
-        setData(response.data)
+        setData(response.data);
       })
       .catch(error => {
         console.error('Erro ao carregar os dados da API:', error);
@@ -35,22 +35,31 @@ export default function Orders() {
   return (
     <React.Fragment>
       <Title>Culturas</Title>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Nome</TableCell>
-            <TableCell>Preço de Venda</TableCell>
-            <TableCell>Ações</TableCell>
+      <Button
+        variant="contained"
+        sx={{mt: 3,
+          mb: 2,
+          width: '100px',
+          alignSelf: 'flex-end'}}
+        >
+          <Link  to={`/Cultura/Form`} state={{ request: 'post', id: '1' }} style={{color:'white', textDecoration: 'none' }}>
+            Cadastrar
+          </Link>
+      </Button>
+      <Table size="small" >
+        <TableHead >
+          <TableRow >
+            <TableCell> <div style={{ textAlign: 'center' }}> ID </div></TableCell>
+            <TableCell> <div style={{ textAlign: 'center' }}> Nome </div></TableCell>
+            <TableCell> <div style={{ textAlign: 'center' }}> Ações </div></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((data) => (
             <TableRow key={data.id}>
-              <TableCell>{data.id}</TableCell>
-              <TableCell>{data.nome}</TableCell>
-              <TableCell>{data.preco_venda}</TableCell>
-              <TableCell>
+              <TableCell> <div style={{ textAlign: 'center' }}> {data.id} </div> </TableCell>
+              <TableCell> <div style={{ textAlign: 'center' }}> {data.nome} </div> </TableCell>
+              <TableCell> <div style={{ textAlign: 'center' }}>
                 <ButtonGroup variant="contained" aria-label="outlined primary button group">
                   <Link to={`/Cultura/Form`} state={{ request: 'get', id: data.id }} style={{ textDecoration: 'none' }}>
                     <Button>
@@ -67,7 +76,7 @@ export default function Orders() {
                       <DeleteIcon />
                     </Button>
                   </Link>
-                </ButtonGroup>
+                </ButtonGroup> </div>
               </TableCell>
             </TableRow>
           ))}

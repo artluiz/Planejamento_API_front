@@ -9,14 +9,14 @@ const defaultTheme = createTheme();
 
 export default function CulturaForm() {
   const [data, setData] = useState([]);
-  const [inputValueN, setInputValueN] = useState(data.nome);
-  const [inputValueP, setInputValueP] = useState(data.preco_venda);
-  const [inputValueE, setInputValueE] = useState(data.embalagem_venda);
+  const [inputValueN, setInputValueN] = useState('');
+  const [inputValueP, setInputValueP] = useState('');
+  const [inputValueE, setInputValueE] = useState('');
 
   const location = useLocation();
 
   const state = location.state;
-  //console.log(location)
+  console.log(location)
   const { request, id } = state;
 
   const handleChangeN = (event) => {
@@ -28,11 +28,12 @@ export default function CulturaForm() {
   };
 
   const handleChangeE = (event) => {
-    setInputValueP(event.target.value);
+    setInputValueE(event.target.value);
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/cultura/${id}`)
+    if(request !== 'post'){
+      axios.get(`http://localhost:8080/cultura/${id}`)
       .then(response => {
         console.log(response.data);
         setData(response.data);
@@ -40,15 +41,18 @@ export default function CulturaForm() {
       .catch(error => {
         console.error('Erro ao carregar os dados da API:', error);
       });
-  }, [id]);
-
-  useEffect(() => {
-
-    setInputValueN(data.nome);
-    setInputValueP(data.preco_venda);
-    setInputValueE(data.embalagem_venda);
+    }
     
-  }, [data]);
+  }, [id, request]);
+  
+  useEffect(() => {
+    if(request !== 'post'){
+      setInputValueN(data.nome);
+      setInputValueP(data.preco_venda);
+      setInputValueE(data.embalagem_venda);
+    }
+    
+  }, [data, request]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -108,7 +112,6 @@ export default function CulturaForm() {
   };
 
   return (
-    console.log('Request:', request),
     <Box component="main" sx={{
       backgroundColor: (theme) =>
         theme.palette.mode === 'light'
@@ -136,13 +139,14 @@ export default function CulturaForm() {
                     </Avatar>
                     <Typography component="h1" variant="h5">
                       {request === 'get' ? 'Cultura' : null}
+                      {request === 'post' ? 'Cadastrar Cultura' : null}
                       {request === 'put' ? 'Atualizar Cultura' : null}
                       {request === 'delete' ? 'Apagar Cultura' : null}
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                       <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <TextField
+                        {request === "post" ? null : <Grid item xs={12}>
+                        <TextField
                             name="id"
                             required
                             fullWidth
@@ -154,7 +158,7 @@ export default function CulturaForm() {
                               readOnly: true
                             }}
                           />
-                        </Grid>
+                        </Grid>}
                         <Grid item xs={12}>
                           <TextField
                             name="nome"
@@ -162,11 +166,11 @@ export default function CulturaForm() {
                             fullWidth
                             id="nome"
                             label="Nome"
-                            autoFocus
-                            value={request === "post" ? null : inputValueN || ''}
+                            value={inputValueN || ''}
                             onChange={handleChangeN}
                             InputProps={{
-                              readOnly: request !== "get" ? false : true
+                              readOnly: request !== "get" ? false : true,
+                              autoFocus: request === "get" ? false : true
                             }}
                           />
                         </Grid>
@@ -177,7 +181,7 @@ export default function CulturaForm() {
                             id="preco_venda"
                             label="Preço de Venda"
                             name="preco_venda"
-                            value={request === "post" ? null : inputValueP || ''}
+                            value={inputValueP || ''}
                             onChange={handleChangeP}
                             InputProps={{
                               readOnly: request !== "get" ? false : true
@@ -192,7 +196,7 @@ export default function CulturaForm() {
                             label="Embalagem"
                             type="embalagem_venda"
                             id="embalagem_venda"
-                            value={request === "post" ? null : inputValueE || ''}
+                            value={inputValueE || ''}
                             onChange={handleChangeE}
                             InputProps={{
                               readOnly: request !== "get" ? false : true
@@ -207,6 +211,7 @@ export default function CulturaForm() {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                         >
+                          {request === 'post' ? 'Cadastrar Cultura' : null}
                           {request === 'put' ? 'Atualizar Cultura' : null}
                           {request === 'delete' ? 'Apagar Cultura' : null}
                       </Button>
