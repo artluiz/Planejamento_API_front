@@ -1,27 +1,27 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import HomePage from './Cultura/CulturaHomePage.js';
 import CulturaHome from './Cultura/PrincipalCultura.js';
 import GetPage from './CRUD/GetPage.js';
 import PostPage from './CRUD/PostPage.js';
 import PutPage from './CRUD/PutPage.js';
 import DeletePage from './CRUD/DeletePage.js';
-import { useLocation } from 'react-router-dom';
+import CulturaForm from './Cultura/CulturaForm';
 
 export default function App() {
   
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage/>} />
           <Route path="/Cultura" element={<CulturaHome />} />
+          <Route path="/Cultura/Form" element={<CulturaForm />} />
           <Route path="/Cultura/GetPage" element={GetPage('Cultura')} />
           <Route path="/Plantio/GetPage" element={GetPage('Plantio')} />
           <Route path="/Insumo/GetPage" element={GetPage('Insumo')} />
           <Route path="/Tipo/GetPage" element={GetPage('Tipo')} />
           <Route path="/Planejamento/GetPage" element={GetPage('Planejamento')} />
-          <Route path="/Cultura/PostPage" element={<PostPage pagina="Cultura" />} />
-          <Route path="/Plantio/PostPage" element={PostPage('Plantio')} />
+          <Route path="/Plantio/PostPage" element={PostPage('Plantio')} /> 
           <Route path="/Insumo/PostPage" element={PostPage('Insumo')} />
           <Route path="/Tipo/PostPage" element={PostPage('Tipo')} />
           <Route path="/Planejamento/PostPage" element={PostPage('Planejamento')} />

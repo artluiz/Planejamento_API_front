@@ -12,18 +12,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Title from '../Title';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 export default function Orders() {
   const [data, setData] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
-  
-
-  const handleButtonClick = (request, id) => {
-    setSelectedId(id);
-    
-  };
-
 
   useEffect(() => {
     axios.get('http://localhost:8080/cultura')
@@ -60,18 +52,18 @@ export default function Orders() {
               <TableCell>{data.preco_venda}</TableCell>
               <TableCell>
                 <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                  <Link to={{pathname: `/Cultura/PostPage`, state: { request: 'get', id: selectedId } }} style={{ textDecoration: 'none' }}>
-                    <Button onClick={() =>handleButtonClick('get', data.id)}>
+                  <Link to={`/Cultura/Form`} state={{ request: 'get', id: data.id }} style={{ textDecoration: 'none' }}>
+                    <Button>
                       <AssignmentIcon />
                     </Button>
                   </Link>
-                  <Link to={{pathname: `/Cultura/PostPage`, state: { request: 'put', id: selectedId } }} style={{ textDecoration: 'none' }}>
-                    <Button onClick={() =>handleButtonClick('put', data.id)}>
+                  <Link to={`/Cultura/Form`} state={{ request: 'put', id: data.id }} style={{ textDecoration: 'none' }}>
+                    <Button>
                       <EditIcon />
                     </Button>
                   </Link>
-                  <Link to={{pathname: `/Cultura/PostPage`, state: { request: 'delete', id: selectedId } }} style={{ textDecoration: 'none' }}>
-                    <Button onClick={() =>handleButtonClick('delete', data.id)}>
+                  <Link to={`/Cultura/Form`} state={{ request: 'post', id: data.id }} style={{ textDecoration: 'none' }}>
+                    <Button>
                       <DeleteIcon />
                     </Button>
                   </Link>
