@@ -18,7 +18,7 @@ export default function Orders() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/cultura')
+    axios.get('http://localhost:8080/insumos')
       .then(response => {
         console.log(response.data);
         setData(response.data);
@@ -34,23 +34,26 @@ export default function Orders() {
 
   return (
     <React.Fragment>
-      <Title>Culturas</Title>
-      <Button
+      <Title>Insumoss</Title>
+      <Link  to={`/Insumo/Form`} state={{ request: 'post', id: '1' }} style={{color:'white', textDecoration: 'none' }}>
+        <Button
         variant="contained"
         sx={{mt: 3,
           mb: 2,
           width: '100px',
           alignSelf: 'flex-end'}}
         >
-          <Link  to={`/Cultura/Form`} state={{ request: 'post', id: '1' }} style={{color:'white', textDecoration: 'none' }}>
-            Cadastrar
-          </Link>
-      </Button>
+          Cadastrar
+        </Button>
+      </Link>
       <Table size="small" >
         <TableHead >
           <TableRow >
             <TableCell> <div style={{ textAlign: 'center' }}> ID </div></TableCell>
             <TableCell> <div style={{ textAlign: 'center' }}> Nome </div></TableCell>
+            <TableCell> <div style={{ textAlign: 'center' }}> Código </div></TableCell>
+            <TableCell> <div style={{ textAlign: 'center' }}> Grupo </div></TableCell>
+            <TableCell> <div style={{ textAlign: 'center' }}> Classe </div></TableCell>
             <TableCell> <div style={{ textAlign: 'center' }}> Ações </div></TableCell>
           </TableRow>
         </TableHead>
@@ -59,19 +62,22 @@ export default function Orders() {
             <TableRow key={data.id}>
               <TableCell> <div style={{ textAlign: 'center' }}> {data.id} </div> </TableCell>
               <TableCell> <div style={{ textAlign: 'center' }}> {data.nome} </div> </TableCell>
+              <TableCell> <div style={{ textAlign: 'center' }}> {data.codigo} </div> </TableCell>
+              <TableCell> <div style={{ textAlign: 'center' }}> {data.grupo} </div> </TableCell>
+              <TableCell> <div style={{ textAlign: 'center' }}> {data.subclasse} </div> </TableCell>
               <TableCell> <div style={{ textAlign: 'center' }}>
                 <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                  <Link to={`/Cultura/Form`} state={{ request: 'get', id: data.id }} style={{ textDecoration: 'none' }}>
+                  <Link to={`/Insumo/Form`} state={{ request: 'get', id: data.id }} style={{ textDecoration: 'none' }}>
                     <Button>
                       <AssignmentIcon />
                     </Button>
                   </Link>
-                  <Link to={`/Cultura/Form`} state={{ request: 'put', id: data.id }} style={{ textDecoration: 'none' }}>
+                  <Link to={`/Insumo/Form`} state={{ request: 'put', id: data.id }} style={{ textDecoration: 'none' }}>
                     <Button>
                       <EditIcon />
                     </Button>
                   </Link>
-                  <Link to={`/Cultura/Form`} state={{ request: 'post', id: data.id }} style={{ textDecoration: 'none' }}>
+                  <Link to={`/Insumo/Form`} state={{ request: 'delete', id: data.id }} style={{ textDecoration: 'none' }}>
                     <Button>
                       <DeleteIcon />
                     </Button>

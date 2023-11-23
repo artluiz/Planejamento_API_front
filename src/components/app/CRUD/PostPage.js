@@ -18,10 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, SecondaryListItems } from '../listItems';
-import CulturaForm from '../Cultura/CulturaForm';
-import PlantioTable from '../Plantio/PlantioTable';
-import PlantioForm from '../Plantio/PlantioForm';
-import PlanejamentoTable from '../Planejamento/PlanejamentoTable';
+import PlanejamentoTable from '../Planejamento/PlanejamentoHome';
 import PlanejamentoForm from '../Planejamento/PlanejamentoForm';
 import TipoTable from '../Tipo/TipoTable';
 import TipoForm from '../Tipo/TipoForm';
@@ -172,8 +169,6 @@ export default function PostPage(pagina) {
               {/* Recent CulturaTable */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex'}}>
-                  {pagina === 'Cultura' ? <CulturaForm /> : null}
-                  {pagina === 'Plantio' ? <PlantioForm /> : null}
                   {pagina === 'Planejamento' ? <PlanejamentoForm /> : null}
                   {pagina === 'Tipo' ? <TipoForm /> : null}
                   {pagina === 'Insumo' ? <InsumoForm /> : null}
@@ -201,7 +196,6 @@ export default function PostPage(pagina) {
               {/* Recent CulturaTable */}
               <Grid item xs={18}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  {pagina === 'Plantio' ? <PlantioTable /> : null}
                   {pagina === 'Planejamento' ? <PlanejamentoTable /> : null}
                   {pagina === 'Tipo' ? <TipoTable /> : null}
                 </Paper>

@@ -14,14 +14,37 @@ import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import {useLocation, Link} from 'react-router-dom';
 //import { Link } from 'react-router-dom';
 dayjs.extend(localizedFormat);
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const [data, setData] = React.useState([]);
+  const [inputValueA, setInputValueA] = React.useState('');
+  const [inputValueN, setInputValueN] = React.useState('');
   const [startDate, setStartDate] = React.useState(null);
   const [endDate, setEndDate] = React.useState(null);
+  const [inputValueIDCA, setInputValueIDCA] = React.useState('');
+  const [inputValueIDC, setInputValueIDC] = React.useState('');
+  const [inputValueE, setInputValueE] = React.useState('');
+
+  const location = useLocation();
+
+  const state = location.state;
+  console.log(location)
+  const { request, id } = state;
+
+  const dayjs = require('dayjs');
+
+  const handleChangeA = (event) => {
+    setInputValueA(event.target.value);
+  };
+
+  const handleChangeN = (event) => {
+    setInputValueN(event.target.value);
+  };
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -30,6 +53,46 @@ export default function SignUp() {
   const handleEndDateChange = (date) => {
     setEndDate(date);
   };
+  
+  const handleChangeIDCA = (event) => {
+    setInputValueIDCA(event.target.value);
+  };
+
+  const handleChangeIDC = (event) => {
+    setInputValueIDC(event.target.value);
+  };
+
+  const handleChangeE = (event) => {
+    setInputValueE(event.target.value);
+  };
+
+  React.useEffect(() => {
+    if(request !== 'post'){
+      axios.get(`http://localhost:8080/planejamento/${id}`)
+      .then(response => {
+        console.log(response.data);
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao carregar os dados da API:', error);
+      });
+    }
+  }, [id, request]);
+
+  React.useEffect(() => {
+    if(request !== 'post'){
+      console.log(data);
+      setInputValueA(data.area_plantio);
+      setInputValueN(data.nome_etapa);
+      handleStartDateChange(dayjs(data.data_comeco));
+      handleEndDateChange(dayjs(data.data_colheita));
+      setInputValueIDCA(data.id_cultura_anterior);
+      setInputValueIDC(data.id_cultura);
+      setInputValueE(data.etapas);
+    }
+    
+  }, [data, request, dayjs]);
+    
     
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -41,16 +104,73 @@ export default function SignUp() {
         data_colheita: endDate.format('YYYY-MM-DD'),
         id_cultura_anterior: data.get('id_cultura_anterior'),
         id_cultura: data.get('id_cultura'),
+        id_etapas: data.get('etapas'),
       };
 
-      axios.post('http://localhost:8080/planejamento', formData)
-        .then((response) => {
-        console.log('Dados atualizados com sucesso:', response.data);
-      })
-        .catch((error) => {
-        console.error('Erro ao atualizar dados:', error);
-      });
-      window.location.reload();
+      switch (request) {
+        case 'post':
+          axios.post(`http://localhost:8080/planejamento`, formData)
+            .then((response) => {
+              console.log('Dados cadastrados com sucesso:', response.data);
+              window.location.assign("/Planejamento/GetPage");
+            })
+            .catch((error) => {
+              console.error('Erro ao cadastrar dados:', error);
+            });
+          break;
+  
+        case 'put':
+          
+          if(formData.area_plantio === ''){
+            formData.area_plantio = null;
+          }
+          if(formData.nome_etapa === ''){
+            formData.nome_etapa = null;
+          }
+          if(formData.data_comeco === ''){
+            formData.data_comeco = null;
+          }
+          if(formData.nome === ''){
+            formData.nome = null;
+          }
+          if(formData.id_cultura_anterior < 0 || formData.id_cultura_anterior === ''){
+            formData.id_cultura_anterior = null;
+          }
+          if(formData.id_planejamento === ''){
+            formData.id_planejamento = null;
+          }
+          
+          axios.put(`http://localhost:8080/planejamento`, formData)
+            .then((response) => {
+              console.log('Dados atualizados com sucesso:', response.data);
+              window.location.assign("/Planejamento/GetPage");
+            })
+            .catch((error) => {
+              console.error('Erro ao atualizar dados:', error);
+            });
+          break;
+  
+        case 'delete':
+          axios.delete(`http://localhost:8080/planejamento/inativar/${id}`, formData)
+            .then((response) => {
+              console.log('Dados atualizados com sucesso:', response.data);
+              window.location.assign("/Planejamento/GetPage");
+            })
+            .catch((error) => {
+              console.error('Erro ao atualizar dados:', error);
+            });
+          break;
+  
+        default:
+          axios.get(`http://localhost:8080/planejamento/${id}`)
+            .then(response => {
+              console.log(response.data);
+            })
+            .catch(error => {
+              console.error('Erro ao carregar os dados da API:', error);
+            });
+          break;
+      }
   };
 
   return (
@@ -70,29 +190,55 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Cadastrar Planejamento
+            {request === 'get' ? 'Planejamento' : null}
+            {request === 'post' ? 'Cadastrar Planejamento' : null}
+            {request === 'put' ? 'Atualizar Planejamento' : null}
+            {request === 'delete' ? 'Apagar Planejamento' : null}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
+            {request === "post" ? null : <Grid item xs={12}>
+              <TextField
+                name="id"
+                required
+                fullWidth
+                id="id"
+                label="Id"
+                autoComplete={String(data.id)}
+                defaultValue={String(id)}
+                InputProps={{
+                  readOnly: true
+                }}
+              />
+            </Grid>}
             <Grid item xs={12}>
             <TextField
-                autoFocus
-                required
                 fullWidth
                 id="area_plantio"
                 label="Area Plantio"
                 name="area_plantio"
                 autoComplete="0"
+                value={inputValueA || ''}
+                onChange={handleChangeA}
+                InputProps={{
+                  readOnly: request !== "get" ? false : true,
+                  required: request === "post" ? true : false
+                }}
               />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="Nome Etapa"
                   name="nome_etapa"
-                  required
                   fullWidth
                   id="nome_etapa"
                   label="Nome Etapa"
+                  value={inputValueN || ''}
+                  onChange={handleChangeN}
+                  InputProps={{
+                    readOnly: request !== "get" ? false : true,
+                    required: request === "post" ? true : false
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -125,36 +271,73 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   id="id_cultura_anterior"
                   label="ID Cultura Anterior"
                   name="id_cultura_anterior"
                   autoComplete="0"
+                  value={inputValueIDCA || ''}
+                  onChange={handleChangeIDCA}
+                  InputProps={{
+                    readOnly: request !== "get" ? false : true,
+                    required: request === "post" ? true : false
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   name="id_cultura"
                   label="ID Cultura"
                   type="id_cultura"
                   id="id_cultura"
                   autoComplete="0"
+                  value={inputValueIDC || ''}
+                  onChange={handleChangeIDC}
+                  InputProps={{
+                    readOnly: request !== "get" ? false : true,
+                    required: request === "post" ? true : false
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  name="etapas"
+                  label="Etapas"
+                  type="etapas"
+                  id="etapas"
+                  autoComplete="0"
+                  value={inputValueE || ''}
+                  onChange={handleChangeE}
+                  InputProps={{
+                    readOnly: request !== "get" ? false : true,
+                    required: request === "post" ? true : false
+                  }}
                 />
               </Grid>
             </Grid>
             {/*<Link to={`/Cultura/PostPage`} style={{ textDecoration: 'none' }}></Link>*/}
-            <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-            >
-            Cadastrar
-            </Button>
-            
+            {request !== 'get' && (
+              <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              >
+                {request === 'post' ? 'Cadastrar Planejamento' : null}
+                {request === 'put' ? 'Atualizar Planejamento' : null}
+                {request === 'delete' ? 'Apagar Planejamento' : null}
+              </Button>
+            )}
+            <Link  to="/Planejamento/GetPage" style={{color:'white', textDecoration: 'none' }}>
+              <Button
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              >
+                  Voltar
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Container>

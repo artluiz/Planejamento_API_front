@@ -69,34 +69,47 @@ export default function CulturaForm() {
         axios.post(`http://localhost:8080/cultura`, formData)
           .then((response) => {
             console.log('Dados cadastrados com sucesso:', response.data);
+          window.location.assign("/Cultura/GetPage");
           })
           .catch((error) => {
             console.error('Erro ao cadastrar dados:', error);
           });
-        //window.location.reload();
         break;
 
       case 'put':
-        console.log("chegou");
+
+        if(formData.nome === ''){
+          formData.nome = null;
+        }
+        if(formData.codigo === ''){
+          formData.codigo = null;
+        }
+        if(formData.preco_venda === '' || formData.preco_venda < 0){
+          formData.preco_venda = null;
+        }
+        if(formData.embalagem_venda === ''){
+          formData.embalagem_venda = null;
+        }
+
         axios.put(`http://localhost:8080/cultura`, formData)
           .then((response) => {
             console.log('Dados atualizados com sucesso:', response.data);
+            window.location.assign("/Cultura/GetPage");
           })
           .catch((error) => {
             console.error('Erro ao atualizar dados:', error);
           });
-        //window.location.reload();
         break;
 
       case 'delete':
         axios.delete(`http://localhost:8080/cultura/inativar/${id}`, formData)
           .then((response) => {
             console.log('Dados atualizados com sucesso:', response.data);
+            window.location.assign("/Cultura/GetPage");
           })
           .catch((error) => {
             console.error('Erro ao atualizar dados:', error);
           });
-        //window.location.reload();
         break;
 
       default:
@@ -148,21 +161,19 @@ export default function CulturaForm() {
                         {request === "post" ? null : <Grid item xs={12}>
                         <TextField
                             name="id"
-                            required
                             fullWidth
                             id="id"
                             label="Id"
                             autoComplete={String(data.id)}
                             defaultValue={String(id)}
                             InputProps={{
-                              readOnly: true
+                              readOnly: true,
                             }}
                           />
                         </Grid>}
                         <Grid item xs={12}>
                           <TextField
                             name="nome"
-                            required
                             fullWidth
                             id="nome"
                             label="Nome"
@@ -170,7 +181,8 @@ export default function CulturaForm() {
                             onChange={handleChangeN}
                             InputProps={{
                               readOnly: request !== "get" ? false : true,
-                              autoFocus: request === "get" ? false : true
+                              autoFocus: request === "get" ? false : true,
+                              required: request === "post" ? true : false
                             }}
                           />
                         </Grid>
@@ -184,7 +196,8 @@ export default function CulturaForm() {
                             value={inputValueP || ''}
                             onChange={handleChangeP}
                             InputProps={{
-                              readOnly: request !== "get" ? false : true
+                              readOnly: request !== "get" ? false : true,
+                              required: request === "post" ? true : false
                             }}
                           />
                         </Grid>
@@ -199,31 +212,32 @@ export default function CulturaForm() {
                             value={inputValueE || ''}
                             onChange={handleChangeE}
                             InputProps={{
-                              readOnly: request !== "get" ? false : true
+                              readOnly: request !== "get" ? false : true,
+                              required: request === "post" ? true : false
                             }}
                           />
                         </Grid>
                       </Grid>
-                      {request !== 'get' && (
-                        <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                        >
-                          {request === 'post' ? 'Cadastrar Cultura' : null}
-                          {request === 'put' ? 'Atualizar Cultura' : null}
-                          {request === 'delete' ? 'Apagar Cultura' : null}
-                      </Button>
-                    )}
-                    <Button
+                    {request !== 'get' && (
+                      <Button
+                      type="submit"
+                      fullWidth
                       variant="contained"
                       sx={{ mt: 3, mb: 2 }}
                       >
-                        <Link  to="/Cultura/GetPage" style={{color:'white', textDecoration: 'none' }}>
+                        {request === 'post' ? 'Cadastrar Cultura' : null}
+                        {request === 'put' ? 'Atualizar Cultura' : null}
+                        {request === 'delete' ? 'Apagar Cultura' : null}
+                      </Button>
+                    )}
+                    <Link  to="/Cultura/GetPage" style={{color:'white', textDecoration: 'none' }}>
+                      <Button
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                      >
                           Voltar
-                        </Link>
-                    </Button>
+                      </Button>
+                    </Link>
                   </Box>
                 </Box>
               </Container>

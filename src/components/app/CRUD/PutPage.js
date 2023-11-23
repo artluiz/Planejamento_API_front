@@ -18,16 +18,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, SecondaryListItems } from '../listItems';
-import CulturaTable from '../Cultura/CulturaTable';
-import CulturaFormPut from '../Cultura/CulturaFormPut';
-import PlantioTable from '../Plantio/PlantioTable';
-import PlantioFormPut from '../Plantio/PlantioFormPut';
-import PlanejamentoTable from '../Planejamento/PlanejamentoTable';
-import PlanejamentoFormPut from '../Planejamento/PlanejamentoFormPut';
 import TipoTable from '../Tipo/TipoTable';
 import TipoFormPut from '../Tipo/TipoFormPut';
-import InsumoSelect from '../Insumo/InsumoSelect';
-import InsumoFormPut from '../Insumo/InsumoFormPut';
 
 function Copyright(props) {
   return (
@@ -173,10 +165,6 @@ export default function PutPage(pagina) {
               {/* Recent CulturaTable */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex'}}>
-                  {pagina === 'Cultura' ? <CulturaFormPut /> : null}
-                  {pagina === 'Plantio' ? <PlantioFormPut /> : null}
-                  {pagina === 'Insumo' ? <InsumoFormPut /> : null}
-                  {pagina === 'Planejamento' ? <PlanejamentoFormPut /> : null}
                   {pagina === 'Tipo' ? <TipoFormPut /> : null}
                 </Paper>
               </Grid>
@@ -201,10 +189,6 @@ export default function PutPage(pagina) {
               {/* Recent CulturaTable */}
               <Grid item xs={18}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  {pagina === 'Cultura' ? <CulturaTable /> : null}
-                  {pagina === 'Plantio' ? <PlantioTable /> : null}
-                  {pagina === 'Insumo' ? InsumoSelect(1) : null}
-                  {pagina === 'Planejamento' ? <PlanejamentoTable /> : null}
                   {pagina === 'Tipo' ? <TipoTable /> : null}
                 </Paper>
               </Grid>

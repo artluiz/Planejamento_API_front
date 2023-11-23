@@ -18,11 +18,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, SecondaryListItems } from '../listItems';
-import CulturaHome from '../Cultura/PrincipalCultura';
-import PlantioTable from '../Plantio/PlantioTable';
+import CulturaHome from '../Cultura/CulturaHome';
+import PlantioHome from '../Plantio/PlantioHome';
 import TipoTable from '../Tipo/TipoTable';
-import PlanejamentoTable from '../Planejamento/PlanejamentoTable';
-import InsumoSelect from '../Insumo/InsumoSelect';
+import PlanejamentoHome from '../Planejamento/PlanejamentoHome';
+import InsumoHome from '../Insumo/InsumoHome';
 
 function Copyright(props) {
   return (
@@ -168,9 +168,9 @@ export default function GetPage(pagina) {
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   {pagina === 'Cultura' ? <CulturaHome /> : null}
-                  {pagina === 'Plantio' ? <PlantioTable /> : null}
-                  {pagina === 'Insumo' ? InsumoSelect(0)  : null}
-                  {pagina === 'Planejamento' ? <PlanejamentoTable /> : null}
+                  {pagina === 'Plantio' ? <PlantioHome /> : null}
+                  {pagina === 'Insumo' ? <InsumoHome /> : null}
+                  {pagina === 'Planejamento' ? <PlanejamentoHome /> : null}
                   {pagina === 'Tipo' ? <TipoTable /> : null}
                 </Paper>
               </Grid>

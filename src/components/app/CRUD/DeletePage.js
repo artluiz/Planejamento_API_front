@@ -18,16 +18,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, SecondaryListItems } from '../listItems';
-import CulturaTable from '../Cultura/CulturaTable';
-import CulturaFormDelete from '../Cultura/CulturaFormDelete';
-import PlantioTable from '../Plantio/PlantioTable';
-import PlantioFormDelete from '../Plantio/PlantioFormDelete';
-import PlanejamentoTable from '../Planejamento/PlanejamentoTable';
-import PlanejamentoFormDelete from '../Planejamento/PlanejamentoFormDelete';
 import TipoTable from '../Tipo/TipoTable';
 import TipoFormDelete from '../Tipo/TipoFormDelete';
-import InsumoSelect from '../Insumo/InsumoSelect';
-import InsumoFormDelete from '../Insumo/InsumoFormDelete';
 
 function Copyright(props) {
   return (
@@ -173,10 +165,6 @@ export default function PutPage(pagina) {
               {/* Recent CulturaTable */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex'}}>
-                  {pagina === 'Cultura' ? <CulturaFormDelete /> : null}
-                  {pagina === 'Plantio' ? <PlantioFormDelete /> : null}
-                  {pagina === 'Insumo' ? <InsumoFormDelete /> : null}
-                  {pagina === 'Planejamento' ? <PlanejamentoFormDelete /> : null}
                   {pagina === 'Tipo' ? <TipoFormDelete /> : null}
                 </Paper>
               </Grid>
@@ -201,10 +189,6 @@ export default function PutPage(pagina) {
               {/* Recent CulturaTable */}
               <Grid item xs={18}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  {pagina === 'Cultura' ? <CulturaTable /> : null}
-                  {pagina === 'Plantio' ? <PlantioTable /> : null}
-                  {pagina === 'Insumo' ? InsumoSelect(1) : null}
-                  {pagina === 'Planejamento' ? <PlanejamentoTable /> : null}
                   {pagina === 'Tipo' ? <TipoTable /> : null}
                 </Paper>
               </Grid>
