@@ -54,7 +54,6 @@ export default function Orders() {
             <TableCell> <div style={{ textAlign: 'center' }}> Nome Etapa </div></TableCell>
             <TableCell> <div style={{ textAlign: 'center' }}> Número de Dias </div></TableCell>
             <TableCell> <div style={{ textAlign: 'center' }}> Estado </div></TableCell>
-            <TableCell> <div style={{ textAlign: 'center' }}> Quantidade/ha </div></TableCell>
             <TableCell> <div style={{ textAlign: 'center' }}> Ações </div></TableCell>
           </TableRow>
         </TableHead>
@@ -65,7 +64,6 @@ export default function Orders() {
               <TableCell> <div style={{ textAlign: 'center' }}> {data.nome_etapa} </div></TableCell>
               <TableCell> <div style={{ textAlign: 'center' }}> {data.numero_dias} </div></TableCell>
               <TableCell> <div style={{ textAlign: 'center' }}> {data.estado} </div></TableCell>
-              <TableCell> <div style={{ textAlign: 'center' }}> {data.quantidade_ha} </div></TableCell>
               <TableCell> <div style={{ textAlign: 'center' }}>
                 <ButtonGroup variant="contained" aria-label="outlined primary button group">
                   <Link to={`/Etapa/Form`} state={{ request: 'get', id: data.id }} style={{ textDecoration: 'none' }}>
