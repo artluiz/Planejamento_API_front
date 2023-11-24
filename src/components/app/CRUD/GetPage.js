@@ -20,9 +20,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, SecondaryListItems } from '../listItems';
 import CulturaHome from '../Cultura/CulturaHome';
 import PlantioHome from '../Plantio/PlantioHome';
-import TipoTable from '../Tipo/TipoTable';
 import PlanejamentoHome from '../Planejamento/PlanejamentoHome';
 import InsumoHome from '../Insumo/InsumoHome';
+import EtapaHome from '../Etapa/EtapaHome';
+import TipoTable from '../Tipo/TipoTable';
 
 function Copyright(props) {
   return (
@@ -171,6 +172,7 @@ export default function GetPage(pagina) {
                   {pagina === 'Plantio' ? <PlantioHome /> : null}
                   {pagina === 'Insumo' ? <InsumoHome /> : null}
                   {pagina === 'Planejamento' ? <PlanejamentoHome /> : null}
+                  {pagina === 'Etapa' ? <EtapaHome /> : null}
                   {pagina === 'Tipo' ? <TipoTable /> : null}
                 </Paper>
               </Grid>

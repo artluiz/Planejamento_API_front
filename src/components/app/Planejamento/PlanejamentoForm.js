@@ -15,6 +15,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import {useLocation, Link} from 'react-router-dom';
+import AppBar from '../SideBar/AppBar';
+import Drawer from '../SideBar/Drawer';
 //import { Link } from 'react-router-dom';
 dayjs.extend(localizedFormat);
 
@@ -176,6 +178,8 @@ export default function SignUp() {
   return (
   <React.Fragment>
     <ThemeProvider theme={defaultTheme}>
+        <AppBar/>  
+        <Drawer/> 
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -197,22 +201,22 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-            {request === "post" ? null : <Grid item xs={12}>
+              {request === "post" ? null : <Grid item xs={12}>
+                <TextField
+                  name="id"
+                  required
+                  fullWidth
+                  id="id"
+                  label="Id"
+                  autoComplete={String(data.id)}
+                  defaultValue={String(id)}
+                  InputProps={{
+                    readOnly: true
+                  }}
+                />
+              </Grid>}
+              <Grid item xs={12}>
               <TextField
-                name="id"
-                required
-                fullWidth
-                id="id"
-                label="Id"
-                autoComplete={String(data.id)}
-                defaultValue={String(id)}
-                InputProps={{
-                  readOnly: true
-                }}
-              />
-            </Grid>}
-            <Grid item xs={12}>
-            <TextField
                 fullWidth
                 id="area_plantio"
                 label="Area Plantio"
@@ -317,7 +321,6 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            {/*<Link to={`/Cultura/PostPage`} style={{ textDecoration: 'none' }}></Link>*/}
             {request !== 'get' && (
               <Button
               type="submit"
@@ -335,7 +338,7 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               >
-                  Voltar
+                Voltar
               </Button>
             </Link>
           </Box>

@@ -49,6 +49,14 @@ export const mainListItems = (
         <ListItemText primary="Tipos de Planejamento" />
       </ListItemButton>
     </Link>
+    <Link to={`/Etapa/GetPage`} style={{ textDecoration: 'none' }}>
+      <ListItemButton>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Etapa" />
+      </ListItemButton>
+    </Link>
   </React.Fragment>
 );
   

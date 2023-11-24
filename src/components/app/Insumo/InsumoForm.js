@@ -12,6 +12,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Autocomplete from '@mui/material/Autocomplete';
 import axios from 'axios';
 import {useLocation, Link} from 'react-router-dom';
+import AppBar from '../SideBar/AppBar';
+import Drawer from '../SideBar/Drawer';
 //import { Link } from 'react-router-dom';
 
 const defaultTheme = createTheme();
@@ -207,6 +209,8 @@ export default function SignUp() {
   return (
   <React.Fragment>
     <ThemeProvider theme={defaultTheme}>
+        <AppBar/>  
+        <Drawer/> 
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -230,6 +234,7 @@ export default function SignUp() {
             <Grid container spacing={2}>
             {request === "post" ? null : <Grid item xs={12}>
             <TextField
+                disabled = {true}
                 name="id"
                 fullWidth
                 id="id"
@@ -254,6 +259,7 @@ export default function SignUp() {
                   autoFocus: request === "get" ? false : true,
                   required: request === "post" ? true : false
                 }}
+                disabled={request !== "get" ? false : true}
               />
             </Grid>
             <Grid item xs={12}>
@@ -268,6 +274,7 @@ export default function SignUp() {
                   readOnly: request !== "get" ? false : true,
                   required: request === "post" ? true : false
                 }}
+                disabled={request !== "get" ? false : true}
               />
             </Grid>
             <Grid item xs={12}>
@@ -282,6 +289,7 @@ export default function SignUp() {
                   readOnly: request !== "get" ? false : true,
                   required: request === "post" ? true : false
                 }}
+                disabled={request !== "get" ? false : true}
               />
               </Grid>
               <Grid item xs={12}>
@@ -296,6 +304,7 @@ export default function SignUp() {
                   readOnly: request !== "get" ? false : true,
                   required: request === "post" ? true : false
                 }}
+                disabled={request !== "get" ? false : true}
               />
               </Grid>
               <Grid item xs={12}>
@@ -310,6 +319,7 @@ export default function SignUp() {
                   readOnly: request !== "get" ? false : true,
                   required: request === "post" ? true : false
                 }}
+                disabled={request !== "get" ? false : true}
               />
               </Grid>
               <Grid item xs={12}>
@@ -321,6 +331,11 @@ export default function SignUp() {
                 onChange = {handleSelectionChangeClasse}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Classe" />}
+                InputProps={{
+                  readOnly: request !== "get" ? false : true,
+                  required: request === "post" ? true : false
+                }}
+                disabled={request !== "get" ? false : true}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -332,6 +347,11 @@ export default function SignUp() {
                 onChange = {handleSelectionChange}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Fabricante" />}
+                InputProps={{
+                  readOnly: request !== "get" ? false : true,
+                  required: request === "post" ? true : false
+                }}
+                disabled={request !== "get" ? false : true}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -346,6 +366,7 @@ export default function SignUp() {
                   readOnly: request !== "get" ? false : true,
                   required: request === "post" ? true : false
                 }}
+                disabled={request !== "get" ? false : true}
               />
               </Grid>
               <Grid item xs={12}>
@@ -357,7 +378,11 @@ export default function SignUp() {
                 onChange = {handleSelectionChangeUnidade}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Unidade" />}
-                
+                InputProps={{
+                  readOnly: request !== "get" ? false : true,
+                  required: request === "post" ? true : false
+                }}
+                disabled={request !== "get" ? false : true}
                 />
               </Grid>
             </Grid>

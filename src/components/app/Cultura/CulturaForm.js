@@ -4,6 +4,8 @@ import * as React from 'react';
 import axios from 'axios';
 import { Box, Container, Grid, Paper, createTheme, ThemeProvider, Typography, CssBaseline, Avatar, TextField, Button } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import AppBar from '../SideBar/AppBar';
+import Drawer from '../SideBar/Drawer';
 
 const defaultTheme = createTheme();
 
@@ -125,6 +127,10 @@ export default function CulturaForm() {
   };
 
   return (
+    <React.Fragment>
+      <ThemeProvider theme={defaultTheme}>
+        <AppBar/>  
+        <Drawer/> 
     <Box component="main" sx={{
       backgroundColor: (theme) =>
         theme.palette.mode === 'light'
@@ -247,5 +253,7 @@ export default function CulturaForm() {
       </Grid>
     </Container>
   </Box>
+  </ThemeProvider>
+  </React.Fragment>
 );
 };
