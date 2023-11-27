@@ -234,7 +234,6 @@ export default function SignUp() {
             <Grid container spacing={2}>
             {request === "post" ? null : <Grid item xs={12}>
             <TextField
-                disabled = {true}
                 name="id"
                 fullWidth
                 id="id"
@@ -254,12 +253,9 @@ export default function SignUp() {
                 label="Nome"
                 value={inputValueN || ''}
                 onChange={handleChangeN}
-                InputProps={{
-                  readOnly: request !== "get" ? false : true,
-                  autoFocus: request === "get" ? false : true,
-                  required: request === "post" ? true : false
-                }}
-                disabled={request !== "get" ? false : true}
+                readOnly={request === "get" ? true : false}
+                required= {request === "post" ? true : false}
+                autoFocus= {request === "get" ? true : false}
               />
             </Grid>
             <Grid item xs={12}>
@@ -270,11 +266,8 @@ export default function SignUp() {
                 label="Codigo"
                 value={inputValueC || ''}
                 onChange={handleChangeC}
-                InputProps={{
-                  readOnly: request !== "get" ? false : true,
-                  required: request === "post" ? true : false
-                }}
-                disabled={request !== "get" ? false : true}
+                readOnly={request === "get" ? true : false}
+                required= {request === "post" ? true : false}
               />
             </Grid>
             <Grid item xs={12}>
@@ -285,11 +278,8 @@ export default function SignUp() {
                 label="Descrição"
                 value={inputValueD || ''}
                 onChange={handleChangeD}
-                InputProps={{
-                  readOnly: request !== "get" ? false : true,
-                  required: request === "post" ? true : false
-                }}
-                disabled={request !== "get" ? false : true}
+                readOnly={request === "get" ? true : false}
+                required= {request === "post" ? true : false}
               />
               </Grid>
               <Grid item xs={12}>
@@ -300,11 +290,8 @@ export default function SignUp() {
                 label="Princípio Ativo"
                 value={inputValueP || ''}
                 onChange={handleChangeP}
-                InputProps={{
-                  readOnly: request !== "get" ? false : true,
-                  required: request === "post" ? true : false
-                }}
-                disabled={request !== "get" ? false : true}
+                readOnly={request === "get" ? true : false}
+                required= {request === "post" ? true : false}
               />
               </Grid>
               <Grid item xs={12}>
@@ -315,11 +302,8 @@ export default function SignUp() {
                 label="Grupo"
                 value={inputValueG || ''}
                 onChange={handleChangeG}
-                InputProps={{
-                  readOnly: request !== "get" ? false : true,
-                  required: request === "post" ? true : false
-                }}
-                disabled={request !== "get" ? false : true}
+                readOnly={request === "get" ? true : false}
+                required= {request === "post" ? true : false}
               />
               </Grid>
               <Grid item xs={12}>
@@ -331,11 +315,8 @@ export default function SignUp() {
                 onChange = {handleSelectionChangeClasse}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Classe" />}
-                InputProps={{
-                  readOnly: request !== "get" ? false : true,
-                  required: request === "post" ? true : false
-                }}
-                disabled={request !== "get" ? false : true}
+                readOnly={request === "get" ? true : false}
+                required= {request === "post" ? true : false}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -347,11 +328,8 @@ export default function SignUp() {
                 onChange = {handleSelectionChange}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Fabricante" />}
-                InputProps={{
-                  readOnly: request !== "get" ? false : true,
-                  required: request === "post" ? true : false
-                }}
-                disabled={request !== "get" ? false : true}
+                readOnly={request === "get" ? true : false}
+                required= {request === "post" ? true : false}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -362,11 +340,8 @@ export default function SignUp() {
                 label="Preço"
                 value={inputValuePR || ''}
                 onChange={handleChangePR}
-                InputProps={{
-                  readOnly: request !== "get" ? false : true,
-                  required: request === "post" ? true : false
-                }}
-                disabled={request !== "get" ? false : true}
+                readOnly={request === "get" ? true : false}
+                required= {request === "post" ? true : false}
               />
               </Grid>
               <Grid item xs={12}>
@@ -378,11 +353,8 @@ export default function SignUp() {
                 onChange = {handleSelectionChangeUnidade}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Unidade" />}
-                InputProps={{
-                  readOnly: request !== "get" ? false : true,
-                  required: request === "post" ? true : false
-                }}
-                disabled={request !== "get" ? false : true}
+                readOnly={request === "get" ? true : false}
+                required= {request === "post" ? true : false}
                 />
               </Grid>
             </Grid>

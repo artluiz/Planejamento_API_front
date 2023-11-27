@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Title from '../Title';
 import axios from 'axios';
+import Box from '@mui/material/Box';
 import { Link} from 'react-router-dom';
 
 export default function Orders() {
@@ -34,18 +35,27 @@ export default function Orders() {
 
   return (
     <React.Fragment>
-      <Title>Culturas</Title>
-      <Link  to={`/Cultura/Form`} state={{ request: 'post', id: '1' }} style={{color:'white', textDecoration: 'none' }}>
-        <Button
-        variant="contained"
-        sx={{mt: 3,
-          mb: 2,
-          width: '100px',
-          alignSelf: 'flex-end'}}
-        >
-          Cadastrar
-        </Button>
-      </Link>
+      <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      sx={{
+        borderBottom: 1,
+        borderColor: 'divider',
+        mb: 3,
+      }}
+    >
+      <Box>
+        <Title>Cultura</Title>
+      </Box>
+      <Box>
+        <Link to={`/Cultura/Form`} state={{ request: 'post', id: '1' }} style={{ color: 'white', textDecoration: 'none' }}>
+          <Button variant="contained" sx={{ width: '100px' }}>
+            Cadastrar
+          </Button>
+        </Link>
+      </Box>
+    </Box>
       <Table size="small" >
         <TableHead >
           <TableRow >

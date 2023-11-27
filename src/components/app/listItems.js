@@ -41,12 +41,12 @@ export const mainListItems = (
         <ListItemText primary="Planejamento" />
       </ListItemButton>
     </Link>
-    <Link to={`/Tipo/GetPage`} style={{ textDecoration: 'none' }}>
+    <Link to={`/EtapaInsumo/GetPage`} style={{ textDecoration: 'none' }}>
       <ListItemButton>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="Tipos de Planejamento" />
+        <ListItemText primary="EtapaInsumo" />
       </ListItemButton>
     </Link>
     <Link to={`/Etapa/GetPage`} style={{ textDecoration: 'none' }}>
@@ -64,7 +64,7 @@ export const SecondaryListItems = (pagina) =>{
   return(
   <React.Fragment>
     <ListSubheader component="div" inset>
-      Saved reports
+      Apenas exemplo
     </ListSubheader>
     <Link to={`/${pagina}/GetPage`} style={{ textDecoration: 'none' }}>
         <ListItemButton>

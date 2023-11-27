@@ -206,7 +206,6 @@ export default function SignUp() {
             <Grid container spacing={2}>
             {request === "post" ? null : <Grid item xs={12}>
             <TextField
-                disabled = {true}
                 name="id"
                 fullWidth
                 id="id"
@@ -222,17 +221,14 @@ export default function SignUp() {
                 <TextField
                   autoComplete="Nome Etapa"
                   name="nome_etapa"
-                  required
                   fullWidth
                   id="nome_etapa"
                   label="Nome Etapa"
                   value={inputValueNE || ''}
                   onChange={handleChangeNE}
-                  InputProps={{
-                    readOnly: request !== "get" ? false : true,
-                    autoFocus: request === "get" ? false : true,
-                    required: request === "post" ? true : false
-                  }}
+                  readOnly={request === "get" ? true : false}
+                  required= {request === "post" ? true : false}
+                  autoFocus= {request === "get" ? true : false}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -244,12 +240,12 @@ export default function SignUp() {
                   onChange = {handleChangeE}
                   sx={{ width: 300 }}
                   renderInput={(params) => <TextField {...params} label="Estado" />}
-                  disabled={request !== "get" ? false : true}
+                  readOnly={request === "get" ? true : false}
+                  required= {request === "post" ? true : false}
                   />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   id="numero_dias"
                   label="Número de dias"
@@ -257,10 +253,8 @@ export default function SignUp() {
                   autoComplete="0"
                   value={inputValueND || ''}
                   onChange={handleChangeND}
-                  InputProps={{
-                    readOnly: request !== "get" ? false : true,
-                    required: request === "post" ? true : false
-                  }}
+                  readOnly={request === "get" ? true : false}
+                  required= {request === "post" ? true : false}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -272,8 +266,9 @@ export default function SignUp() {
                   value={inputValueP}
                   onChange = {handleChangeP}
                   sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="ID Planejamento" />}
-                  disabled={request !== "get" ? false : true}
+                  renderInput={(params) => <TextField {...params} label="Planejamento" />}
+                  readOnly={request === "get" ? true : false}
+                  required= {request === "post" ? true : false}
                   />
               </Grid>
             </Grid>

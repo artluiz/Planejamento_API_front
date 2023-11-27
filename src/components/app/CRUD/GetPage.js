@@ -23,7 +23,7 @@ import PlantioHome from '../Plantio/PlantioHome';
 import PlanejamentoHome from '../Planejamento/PlanejamentoHome';
 import InsumoHome from '../Insumo/InsumoHome';
 import EtapaHome from '../Etapa/EtapaHome';
-import TipoTable from '../Tipo/TipoTable';
+import EtapaInsumoHome from '../EtapaInsumo/EtapaInsumoHome';
 
 function Copyright(props) {
   return (
@@ -173,7 +173,7 @@ export default function GetPage(pagina) {
                   {pagina === 'Insumo' ? <InsumoHome /> : null}
                   {pagina === 'Planejamento' ? <PlanejamentoHome /> : null}
                   {pagina === 'Etapa' ? <EtapaHome /> : null}
-                  {pagina === 'Tipo' ? <TipoTable /> : null}
+                  {pagina === 'EtapaInsumo' ? <EtapaInsumoHome /> : null}
                 </Paper>
               </Grid>
             </Grid>

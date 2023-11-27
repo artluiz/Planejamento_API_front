@@ -9,12 +9,11 @@ import InsumoHome from './Insumo/InsumoHome';
 import InsumoForm from './Insumo/InsumoForm';
 import PlanejamentoHome from './Planejamento/PlanejamentoHome';
 import PlanejamentoForm from './Planejamento/PlanejamentoForm';
+import EtapaInsumoHome from './EtapaInsumo/EtapaInsumoHome';
+import EtapaInsumoForm from './EtapaInsumo/EtapaInsumoForm';
 import EtapaHome from './Etapa/EtapaHome';
 import EtapaForm from './Etapa/EtapaForm';
 import GetPage from './CRUD/GetPage.js';
-import PostPage from './CRUD/PostPage.js';
-import PutPage from './CRUD/PutPage.js';
-import DeletePage from './CRUD/DeletePage.js';
 
 export default function App() {
   
@@ -43,13 +42,9 @@ export default function App() {
           <Route path="/Etapa/GetPage" element={GetPage('Etapa')} />
           <Route path="/Etapa/Form" element={<EtapaForm />} />
                     
-          <Route path="/Tipo/GetPage" element={GetPage('Tipo')} />
-          
-          <Route path="/Tipo/PostPage" element={PostPage('Tipo')} />
-          
-          <Route path="/Tipo/PutPage" element={PutPage('Tipo')} />
-          
-          <Route path="/Tipo/DeletePage" element={DeletePage('Tipo')} />
+          <Route path="/EtapaInsumo" element={<EtapaInsumoHome />} />
+          <Route path="/EtapaInsumo/GetPage" element={GetPage('EtapaInsumo')} />
+          <Route path="/EtapaInsumo/Form" element={<EtapaInsumoForm />} />
         </Routes>
     </Router>
   );

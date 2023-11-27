@@ -248,6 +248,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    readOnly={request === "get" ? true : false}
                     id="data_comeco"
                     name="data_comeco"
                     required
@@ -262,6 +263,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    readOnly={request === "get" ? true : false}
                     id="data_colheita"
                     name="data_colheita"
                     required
