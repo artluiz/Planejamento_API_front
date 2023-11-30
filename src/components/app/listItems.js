@@ -57,6 +57,14 @@ export const mainListItems = (
         <ListItemText primary="Etapa" />
       </ListItemButton>
     </Link>
+    <Link to={`/InsumoCultura/GetPage`} style={{ textDecoration: 'none' }}>
+      <ListItemButton>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="InsumoCultura" />
+      </ListItemButton>
+    </Link>
   </React.Fragment>
 );
   

@@ -13,6 +13,8 @@ import EtapaInsumoHome from './EtapaInsumo/EtapaInsumoHome';
 import EtapaInsumoForm from './EtapaInsumo/EtapaInsumoForm';
 import EtapaHome from './Etapa/EtapaHome';
 import EtapaForm from './Etapa/EtapaForm';
+import InsumoCulturaHome from './InsumoCultura/InsumoCulturaHome';
+import InsumoCulturaForm from './InsumoCultura/InsumoCulturaForm';
 import GetPage from './CRUD/GetPage.js';
 
 export default function App() {
@@ -45,6 +47,10 @@ export default function App() {
           <Route path="/EtapaInsumo" element={<EtapaInsumoHome />} />
           <Route path="/EtapaInsumo/GetPage" element={GetPage('EtapaInsumo')} />
           <Route path="/EtapaInsumo/Form" element={<EtapaInsumoForm />} />
+
+          <Route path="/InsumoCultura" element={<InsumoCulturaHome />} />
+          <Route path="/InsumoCultura/GetPage" element={GetPage('InsumoCultura')} />
+          <Route path="/InsumoCultura/Form" element={<InsumoCulturaForm />} />
         </Routes>
     </Router>
   );

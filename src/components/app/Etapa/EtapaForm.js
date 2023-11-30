@@ -31,7 +31,6 @@ export default function SignUp() {
   const location = useLocation();
 
   const state = location.state;
-  console.log(location)
   const { request, id } = state;
 
   const handleChangeNE = (event) => {
@@ -39,7 +38,6 @@ export default function SignUp() {
   };
 
   const handleChangeE = (event, newValue) => {
-    console.log(newValue);
     setInputValueE(newValue);
   };
 
@@ -48,7 +46,6 @@ export default function SignUp() {
   };
 
   const handleChangeP = (event, newValue) => {
-    console.log(newValue);
     setInputValueP(newValue);
   };
 

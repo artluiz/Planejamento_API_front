@@ -24,6 +24,7 @@ import PlanejamentoHome from '../Planejamento/PlanejamentoHome';
 import InsumoHome from '../Insumo/InsumoHome';
 import EtapaHome from '../Etapa/EtapaHome';
 import EtapaInsumoHome from '../EtapaInsumo/EtapaInsumoHome';
+import InsumoCulturaHome from '../InsumoCultura/InsumoCulturaHome';
 
 function Copyright(props) {
   return (
@@ -174,6 +175,7 @@ export default function GetPage(pagina) {
                   {pagina === 'Planejamento' ? <PlanejamentoHome /> : null}
                   {pagina === 'Etapa' ? <EtapaHome /> : null}
                   {pagina === 'EtapaInsumo' ? <EtapaInsumoHome /> : null}
+                  {pagina === 'InsumoCultura' ? <InsumoCulturaHome /> : null}
                 </Paper>
               </Grid>
             </Grid>

@@ -23,13 +23,9 @@ export default function SignUp() {
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
   const [data3, setData3] = useState([]);
-  const [data4, setData4] = useState([]);
-  const [selectedUnidade, setSelectedUnidade] = React.useState(null);
-  const [objetoEncontrado, setObjetoEncontrado] = React.useState(null);
   const [objetoEncontrado2, setObjetoEncontrado2] = React.useState(null);
   const [objetoEncontrado3, setObjetoEncontrado3] = React.useState(null);
   const [inputValueQ, setInputValueQ] = React.useState(null);
-  const [inputValueE, setInputValueE] = React.useState(null);
   const [inputValueC, setInputValueC] = React.useState(null);
   const [inputValueI, setInputValueI] = React.useState(null);
 
@@ -38,13 +34,9 @@ export default function SignUp() {
   const state = location.state;
   console.log(location)
   const { request, id } = state;
-  
+
   const handleChangeQ = (event) => {
     setInputValueQ(event.target.value);
-  };
-
-  const handleChangeE = (event, newValue) => {
-    setInputValueE(newValue);
   };
 
   const handleChangeC = (event, newValue) => {
@@ -58,7 +50,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if(request !== 'post'){
-      axios.get(`http://localhost:8080/PlanejamentoEtapaInsumo/${id}`)
+      axios.get(`http://localhost:8080/InsumoCultura/${id}`)
         .then(response => {
           console.log(response.data);
           setData(response.data)
@@ -70,7 +62,7 @@ export default function SignUp() {
   }, [id, request]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/PlanejamentoEtapa/Nome')
+    axios.get('http://localhost:8080/cultura/Nome')
       .then(response => {
         console.log(response.data);
         setData2(response.data)
@@ -81,7 +73,7 @@ export default function SignUp() {
   }, [request]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/cultura/Nome')
+    axios.get('http://localhost:8080/insumos/Nome')
       .then(response => {
         console.log(response.data);
         setData3(response.data)
@@ -90,22 +82,6 @@ export default function SignUp() {
         console.error('Erro ao carregar os dados da API:', error);
       });
   }, [request]);
-
-  useEffect(() => {
-    axios.get('http://localhost:8080/insumos/Nome')
-      .then(response => {
-        console.log(response.data);
-        setData4(response.data)
-      })
-      .catch(error => {
-        console.error('Erro ao carregar os dados da API:', error);
-      });
-  }, [request]);
-
-  const encontrarObjetoPorIdEtapa = (idEtapa, array) => {
-    console.log(idEtapa);
-    return array.find(obj => obj.id === idEtapa);
-  };
 
   const encontrarObjetoPorIdCultura = (idCultura, array) => {
     return array.find(obj => obj.id === idCultura);
@@ -116,58 +92,46 @@ export default function SignUp() {
   };
 
   useEffect(() => {
-    const objeto = encontrarObjetoPorIdEtapa(data.planejamento_etapa_id, data2);
+    const objeto = encontrarObjetoPorIdCultura(data.id_cultura, data2);
     console.log(objeto);
-    setObjetoEncontrado(objeto);
+    setObjetoEncontrado2(objeto);
   }, [data, data2]);
 
   useEffect(() => {
-    const objeto = encontrarObjetoPorIdCultura(data.id_cultura, data3);
+    const objeto = encontrarObjetoPorIdInsumo(data.id_insumo, data3);
     console.log(objeto);
-    setObjetoEncontrado2(objeto);
+    setObjetoEncontrado3(objeto);
   }, [data, data3]);
 
   useEffect(() => {
-    const objeto = encontrarObjetoPorIdInsumo(data.id_insumo, data4);
-    console.log(objeto);
-    setObjetoEncontrado3(objeto);
-  }, [data, data4]);
-
-  useEffect(() => {
     if(request !== 'post'){
-      if(objetoEncontrado3 !== null){
-        setInputValueI(objetoEncontrado3);
-      }
       setInputValueQ(data.quantidade_ha);
-      setSelectedUnidade(data.unidade);
       if(objetoEncontrado2 !== null){
         setInputValueC(objetoEncontrado2);
       }
-      if(objetoEncontrado !== null){
-        setInputValueE(objetoEncontrado);
+      if(objetoEncontrado3 !== null){
+        setInputValueI(objetoEncontrado3);
       }
     }
     
-  }, [data, request, objetoEncontrado, objetoEncontrado2, objetoEncontrado3]);
+  }, [data, request, objetoEncontrado2, objetoEncontrado3]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formData = {
         id: data.get('id'),
-        unidade: selectedUnidade,
         quantidade_ha: data.get('quantidade_ha'),
-        planejamento_etapa_id: inputValueE.id,
         id_cultura: inputValueC.id,
         id_insumo: inputValueI.id,
       };
 
       switch (request) {
         case 'post':
-          axios.post(`http://localhost:8080/PlanejamentoEtapaInsumo`, formData)
+          axios.post(`http://localhost:8080/InsumoCultura`, formData)
             .then((response) => {
               console.log('Dados cadastrados com sucesso:', response.data);
-              window.location.assign("/Etapa/GetPage");
+              window.location.assign("/InsumoCultura/GetPage");
             })
             .catch((error) => {
               console.error('Erro ao cadastrar dados:', error);
@@ -176,14 +140,8 @@ export default function SignUp() {
   
         case 'put':
           
-          if(formData.unidade === ''){
-            formData.unidade = null;
-          }
           if(formData.quantidade_ha === ''){
             formData.quantidade_ha = null;
-          }
-          if(formData.planejamento_etapa_id === ''){
-            formData.planejamento_etapa_id = null;
           }
           if(formData.id_cultura === ''){
             formData.id_cultura = null;
@@ -192,10 +150,10 @@ export default function SignUp() {
             formData.id_insumo = null;
           }
           
-          axios.put(`http://localhost:8080/PlanejamentoEtapaInsumo`, formData)
+          axios.put(`http://localhost:8080/InsumoCultura`, formData)
             .then((response) => {
               console.log('Dados atualizados com sucesso:', response.data);
-              window.location.assign("/Etapa/GetPage");
+              window.location.assign("/InsumoCultura/GetPage");
             })
             .catch((error) => {
               console.error('Erro ao atualizar dados:', error);
@@ -203,10 +161,10 @@ export default function SignUp() {
           break;
   
         case 'delete':
-          axios.delete(`http://localhost:8080/PlanejamentoEtapaInsumo/inativar/${id}`, formData)
+          axios.delete(`http://localhost:8080/InsumoCultura/inativar/${id}`, formData)
             .then((response) => {
               console.log('Dados atualizados com sucesso:', response.data);
-              window.location.assign("/Etapa/GetPage");
+              window.location.assign("/InsumoCultura/GetPage");
             })
             .catch((error) => {
               console.error('Erro ao atualizar dados:', error);
@@ -214,7 +172,7 @@ export default function SignUp() {
           break;
   
         default:
-          axios.get(`http://localhost:8080/PlanejamentoEtapaInsumo/${id}`)
+          axios.get(`http://localhost:8080/InsumoCultura/${id}`)
             .then(response => {
               console.log(response.data);
             })
@@ -223,15 +181,6 @@ export default function SignUp() {
             });
           break;
       }
-  };
-
-  const unidade = [
-    'KG',
-    'L',
-  ];
-
-  const handleSelectionChange = (event, newValue) => {
-    setSelectedUnidade(newValue);
   };
 
   return (
@@ -253,10 +202,10 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            {request === 'get' ? 'Ligação' : null}
-            {request === 'post' ? 'Cadastrar Ligação' : null}
-            {request === 'put' ? 'Atualizar Ligação' : null}
-            {request === 'delete' ? 'Apagar Ligação' : null}
+            {request === 'get' ? 'A' : null}
+            {request === 'post' ? 'Cadastrar' : null}
+            {request === 'put' ? 'Atualizar' : null}
+            {request === 'delete' ? 'Apagar' : null}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -276,7 +225,7 @@ export default function SignUp() {
                   readOnly={request === "get" ? true : false}
                   disablePortal
                   id="insumo"
-                  options={data4}
+                  options={data3}
                   getOptionLabel={(option) => option.nome}
                   value={inputValueI}
                   onChange = {handleChangeI}
@@ -287,21 +236,8 @@ export default function SignUp() {
                   />
               </Grid>
               <Grid item xs={12}>
-              <Autocomplete
-                disablePortal
-                id="unidade"
-                options={unidade}
-                value={selectedUnidade}
-                onChange = {handleSelectionChange}
-                sx={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label="Unidade" />}
-                required= {request === "post" ? true : false}
-                readOnly={request === "get" ? true : false}
-                />
-              </Grid>
-              <Grid item xs={12}>
                 <TextField
-                  autoComplete="40"
+                  autoComplete="1"
                   name="quantidade_ha"
                   fullWidth
                   id="quantidade_ha"
@@ -316,26 +252,12 @@ export default function SignUp() {
                 <Autocomplete
                   disablePortal
                   id="id_cultura"
-                  options={data3}
+                  options={data2}
                   getOptionLabel={(option) => option.nome}
                   value={inputValueC}
                   onChange = {handleChangeC}
                   sx={{ width: 300 }}
                   renderInput={(params) => <TextField {...params} label="Cultura" />}
-                  readOnly={request === "get" ? true : false}
-                  required= {request === "post" ? true : false}
-                  />
-              </Grid>
-              <Grid item xs={12}>
-                <Autocomplete
-                  disablePortal
-                  id="planejamento_etapa_id"
-                  options={data2}
-                  getOptionLabel={(option) => option.nome_etapa}
-                  value={inputValueE}
-                  onChange = {handleChangeE}
-                  sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="Etapa" />}
                   readOnly={request === "get" ? true : false}
                   required= {request === "post" ? true : false}
                   />
@@ -348,12 +270,12 @@ export default function SignUp() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 >
-                  {request === 'post' ? 'Cadastrar Ligação' : null}
-                  {request === 'put' ? 'Atualizar Ligação' : null}
-                  {request === 'delete' ? 'Apagar Ligação' : null}
+                  {request === 'post' ? 'Cadastrar' : null}
+                  {request === 'put' ? 'Atualizar' : null}
+                  {request === 'delete' ? 'Apagar' : null}
               </Button>
             )}
-            <Link  to="/EtapaInsumo/GetPage" style={{color:'white', textDecoration: 'none' }}>
+            <Link  to="/InsumoCultura/GetPage" style={{color:'white', textDecoration: 'none' }}>
               <Button
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
