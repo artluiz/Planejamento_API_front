@@ -104,17 +104,6 @@ export default function PlantioForm() {
           
         break;
 
-      case 'delete':
-        axios.delete(`http://localhost:8080/plantio/inativar/${id}`, formData)
-          .then((response) => {
-            console.log('Dados atualizados com sucesso:', response.data);
-            window.location.assign("/Plantio/GetPage");
-          })
-          .catch((error) => {
-            console.error('Erro ao atualizar dados:', error);
-          });
-        break;
-
       default:
         axios.get(`http://localhost:8080/plantio/${id}`)
           .then(response => {
@@ -161,7 +150,6 @@ export default function PlantioForm() {
                       {request === 'get' ? 'Plantio' : null}
                       {request === 'post' ? 'Cadastrar Plantio' : null}
                       {request === 'put' ? 'Atualizar Plantio' : null}
-                      {request === 'delete' ? 'Apagar Plantio' : null}
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                       <Grid container spacing={2}>
@@ -233,7 +221,6 @@ export default function PlantioForm() {
                         >
                           {request === 'post' ? 'Cadastrar Plantio' : null}
                           {request === 'put' ? 'Atualizar Plantio' : null}
-                          {request === 'delete' ? 'Apagar Plantio' : null}
                       </Button>
                     )}
                     <Link  to="/Plantio/GetPage" style={{color:'white', textDecoration: 'none' }}>

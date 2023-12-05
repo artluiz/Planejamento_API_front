@@ -9,11 +9,11 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Title from '../Title';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import { Link} from 'react-router-dom';
+import DeletePopUp from '../CRUD/DeletePopUp';
 
 export default function Orders() {
   const [data, setData] = useState([]);
@@ -114,11 +114,7 @@ export default function Orders() {
                       <EditIcon />
                     </Button>
                   </Link>
-                  <Link to={`/InsumoCultura/Form`} state={{ request: 'delete', id: data.id }} style={{ textDecoration: 'none' }}>
-                    <Button>
-                      <DeleteIcon />
-                    </Button>
-                  </Link>
+                    <DeletePopUp request="CulturaInsumo" id={data.id} />
                 </ButtonGroup> </div>
               </TableCell>
             </TableRow>

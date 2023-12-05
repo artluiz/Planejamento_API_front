@@ -159,17 +159,6 @@ export default function SignUp() {
             });
           break;
   
-        case 'delete':
-          axios.delete(`http://localhost:8080/insumos/inativar/${id}`, formData)
-            .then((response) => {
-              console.log('Dados atualizados com sucesso:', response.data);
-              window.location.assign("/Insumo/GetPage");
-            })
-            .catch((error) => {
-              console.error('Erro ao atualizar dados:', error);
-            });
-          break;
-  
         default:
           axios.get(`http://localhost:8080/insumos/${id}`)
             .then(response => {
@@ -228,7 +217,6 @@ export default function SignUp() {
             {request === 'get' ? 'Insumo' : null}
             {request === 'post' ? 'Cadastrar Insumo' : null}
             {request === 'put' ? 'Atualizar Insumo' : null}
-            {request === 'delete' ? 'Apagar Insumo' : null}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -367,7 +355,6 @@ export default function SignUp() {
                 >
                   {request === 'post' ? 'Cadastrar Insumo' : null}
                   {request === 'put' ? 'Atualizar Insumo' : null}
-                  {request === 'delete' ? 'Apagar Insumo' : null}
               </Button>
             )}
             <Link  to="/Insumo/GetPage" style={{color:'white', textDecoration: 'none' }}>

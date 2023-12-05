@@ -202,17 +202,6 @@ export default function SignUp() {
             });
           break;
   
-        case 'delete':
-          axios.delete(`http://localhost:8080/PlanejamentoEtapaInsumo/inativar/${id}`, formData)
-            .then((response) => {
-              console.log('Dados atualizados com sucesso:', response.data);
-              window.location.assign("/Etapa/GetPage");
-            })
-            .catch((error) => {
-              console.error('Erro ao atualizar dados:', error);
-            });
-          break;
-  
         default:
           axios.get(`http://localhost:8080/PlanejamentoEtapaInsumo/${id}`)
             .then(response => {
@@ -256,7 +245,6 @@ export default function SignUp() {
             {request === 'get' ? 'Ligação' : null}
             {request === 'post' ? 'Cadastrar Ligação' : null}
             {request === 'put' ? 'Atualizar Ligação' : null}
-            {request === 'delete' ? 'Apagar Ligação' : null}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -350,7 +338,6 @@ export default function SignUp() {
                 >
                   {request === 'post' ? 'Cadastrar Ligação' : null}
                   {request === 'put' ? 'Atualizar Ligação' : null}
-                  {request === 'delete' ? 'Apagar Ligação' : null}
               </Button>
             )}
             <Link  to="/EtapaInsumo/GetPage" style={{color:'white', textDecoration: 'none' }}>

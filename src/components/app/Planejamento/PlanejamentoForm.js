@@ -152,17 +152,6 @@ export default function SignUp() {
             });
           break;
   
-        case 'delete':
-          axios.delete(`http://localhost:8080/planejamento/inativar/${id}`, formData)
-            .then((response) => {
-              console.log('Dados atualizados com sucesso:', response.data);
-              window.location.assign("/Planejamento/GetPage");
-            })
-            .catch((error) => {
-              console.error('Erro ao atualizar dados:', error);
-            });
-          break;
-  
         default:
           axios.get(`http://localhost:8080/planejamento/${id}`)
             .then(response => {
@@ -197,7 +186,6 @@ export default function SignUp() {
             {request === 'get' ? 'Planejamento' : null}
             {request === 'post' ? 'Cadastrar Planejamento' : null}
             {request === 'put' ? 'Atualizar Planejamento' : null}
-            {request === 'delete' ? 'Apagar Planejamento' : null}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -332,7 +320,6 @@ export default function SignUp() {
               >
                 {request === 'post' ? 'Cadastrar Planejamento' : null}
                 {request === 'put' ? 'Atualizar Planejamento' : null}
-                {request === 'delete' ? 'Apagar Planejamento' : null}
               </Button>
             )}
             <Link  to="/Planejamento/GetPage" style={{color:'white', textDecoration: 'none' }}>

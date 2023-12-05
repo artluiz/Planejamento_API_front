@@ -160,17 +160,6 @@ export default function SignUp() {
             });
           break;
   
-        case 'delete':
-          axios.delete(`http://localhost:8080/InsumoCultura/inativar/${id}`, formData)
-            .then((response) => {
-              console.log('Dados atualizados com sucesso:', response.data);
-              window.location.assign("/InsumoCultura/GetPage");
-            })
-            .catch((error) => {
-              console.error('Erro ao atualizar dados:', error);
-            });
-          break;
-  
         default:
           axios.get(`http://localhost:8080/InsumoCultura/${id}`)
             .then(response => {
@@ -205,7 +194,6 @@ export default function SignUp() {
             {request === 'get' ? 'A' : null}
             {request === 'post' ? 'Cadastrar' : null}
             {request === 'put' ? 'Atualizar' : null}
-            {request === 'delete' ? 'Apagar' : null}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -272,7 +260,6 @@ export default function SignUp() {
                 >
                   {request === 'post' ? 'Cadastrar' : null}
                   {request === 'put' ? 'Atualizar' : null}
-                  {request === 'delete' ? 'Apagar' : null}
               </Button>
             )}
             <Link  to="/InsumoCultura/GetPage" style={{color:'white', textDecoration: 'none' }}>

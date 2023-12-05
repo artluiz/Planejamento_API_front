@@ -17,14 +17,6 @@ export const mainListItems = (
         <ListItemText primary="Cultura" />
       </ListItemButton>
     </Link>
-    <Link to={`/Plantio/GetPage`} style={{ textDecoration: 'none' }}>
-      <ListItemButton>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Plantio" />
-      </ListItemButton>
-    </Link>
     <Link to={`/Insumo/GetPage`} style={{ textDecoration: 'none' }}>
       <ListItemButton>
         <ListItemIcon>
@@ -41,12 +33,12 @@ export const mainListItems = (
         <ListItemText primary="Planejamento" />
       </ListItemButton>
     </Link>
-    <Link to={`/EtapaInsumo/GetPage`} style={{ textDecoration: 'none' }}>
+    <Link to={`/Plantio/GetPage`} style={{ textDecoration: 'none' }}>
       <ListItemButton>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="EtapaInsumo" />
+        <ListItemText primary="Plantio" />
       </ListItemButton>
     </Link>
     <Link to={`/Etapa/GetPage`} style={{ textDecoration: 'none' }}>
@@ -55,6 +47,14 @@ export const mainListItems = (
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText primary="Etapa" />
+      </ListItemButton>
+    </Link>
+    <Link to={`/EtapaInsumo/GetPage`} style={{ textDecoration: 'none' }}>
+      <ListItemButton>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="EtapaInsumo" />
       </ListItemButton>
     </Link>
     <Link to={`/InsumoCultura/GetPage`} style={{ textDecoration: 'none' }}>
