@@ -11,12 +11,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import {useLocation, Link} from 'react-router-dom';
 import AppBar from '../SideBar/AppBar';
 import Drawer from '../SideBar/Drawer';
+import Autocomplete from '@mui/material/Autocomplete';
 //import { Link } from 'react-router-dom';
 dayjs.extend(localizedFormat);
 
@@ -24,13 +26,26 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const [data, setData] = React.useState([]);
+  const [data2, setData2] = React.useState([]);
   const [inputValueA, setInputValueA] = React.useState('');
   const [inputValueN, setInputValueN] = React.useState('');
   const [startDate, setStartDate] = React.useState(null);
   const [endDate, setEndDate] = React.useState(null);
-  const [inputValueIDCA, setInputValueIDCA] = React.useState('');
-  const [inputValueIDC, setInputValueIDC] = React.useState('');
+  const [objetoEncontrado, setObjetoEncontrado] = React.useState(null);
+  const [objetoEncontrado2, setObjetoEncontrado2] = React.useState(null);
+  const [inputValueCA, setInputValueCA] = React.useState('');
+  const [inputValueC, setInputValueC] = React.useState('');
   const [inputValueE, setInputValueE] = React.useState('');
+  const [dateRange, setDateRange] = React.useState([null, null]);
+
+  const handleDateRangeChange = (newDates) => {
+
+    const [startDate, endDate] = newDates;
+    if (startDate > endDate) {
+      return;
+    }
+    setDateRange(newDates);
+  };
 
   const location = useLocation();
 
@@ -56,12 +71,12 @@ export default function SignUp() {
     setEndDate(date);
   };
   
-  const handleChangeIDCA = (event) => {
-    setInputValueIDCA(event.target.value);
+  const handleChangeCA = (event, newValue) => {
+    setInputValueCA(newValue);
   };
 
-  const handleChangeIDC = (event) => {
-    setInputValueIDC(event.target.value);
+  const handleChangeC = (event, newValue) => {
+    setInputValueC(newValue);
   };
 
   const handleChangeE = (event) => {
@@ -82,30 +97,46 @@ export default function SignUp() {
   }, [id, request]);
 
   React.useEffect(() => {
+    axios.get('http://localhost:8080/cultura/Nome')
+      .then(response => {
+        console.log(response.data);
+        setData2(response.data)
+      })
+      .catch(error => {
+        console.error('Erro ao carregar os dados da API:', error);
+      });
+  }, [request]);
+
+  React.useEffect(() => {
     if(request !== 'post'){
       console.log(data);
       setInputValueA(data.area_plantio);
       setInputValueN(data.nome_etapa);
       handleStartDateChange(dayjs(data.data_comeco));
       handleEndDateChange(dayjs(data.data_colheita));
-      setInputValueIDCA(data.id_cultura_anterior);
-      setInputValueIDC(data.id_cultura);
+      if(objetoEncontrado !== null){
+        setInputValueCA(objetoEncontrado);
+      }
+      if(objetoEncontrado2 !== null){
+        setInputValueC(objetoEncontrado2);
+      }
       setInputValueE(data.etapas);
     }
     
-  }, [data, request, dayjs]);
+  }, [data, request, dayjs, objetoEncontrado, objetoEncontrado2]);
     
     
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formData = {
+        id: data.get('id'),
         area_plantio: data.get('area_plantio'),
         nome_etapa: data.get('nome_etapa'),
         data_comeco: startDate.format('YYYY-MM-DD'),
         data_colheita: endDate.format('YYYY-MM-DD'),
-        id_cultura_anterior: data.get('id_cultura_anterior'),
-        id_cultura: data.get('id_cultura'),
+        id_cultura_anterior: inputValueCA.id,
+        id_cultura: inputValueC.id,
         id_etapas: data.get('etapas'),
       };
 
@@ -164,6 +195,26 @@ export default function SignUp() {
       }
   };
 
+  const encontrarObjetoPorIdCulturaAnte = (idCulturaAnterior, array) => {
+    return array.find(obj => obj.id === idCulturaAnterior);
+  };
+
+  const encontrarObjetoPorIdCultura = (idCultura, array) => {
+    return array.find(obj => obj.id === idCultura);
+  };
+
+  React.useEffect(() => {
+    const objeto = encontrarObjetoPorIdCulturaAnte(data.id_cultura_anterior, data2);
+    console.log(objeto);
+    setObjetoEncontrado(objeto);
+  }, [data, data2]);
+
+  React.useEffect(() => {
+    const objeto = encontrarObjetoPorIdCultura(data.id_cultura, data2);
+    console.log(objeto);
+    setObjetoEncontrado2(objeto);
+  }, [data, data2]);
+
   return (
   <React.Fragment>
     <ThemeProvider theme={defaultTheme}>
@@ -207,7 +258,7 @@ export default function SignUp() {
               <TextField
                 fullWidth
                 id="area_plantio"
-                label="Area Plantio"
+                label="Area Plantio em hectares"
                 name="area_plantio"
                 autoComplete="0"
                 value={inputValueA || ''}
@@ -231,11 +282,13 @@ export default function SignUp() {
                     readOnly: request !== "get" ? false : true,
                     required: request === "post" ? true : false
                   }}
+                  
                 />
               </Grid>
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    format='DD-MM-YYYY'
                     readOnly={request === "get" ? true : false}
                     id="data_comeco"
                     name="data_comeco"
@@ -251,6 +304,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    format='DD-MM-YYYY'
                     readOnly={request === "get" ? true : false}
                     id="data_colheita"
                     name="data_colheita"
@@ -264,35 +318,60 @@ export default function SignUp() {
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="id_cultura_anterior"
-                  label="ID Cultura Anterior"
-                  name="id_cultura_anterior"
-                  autoComplete="0"
-                  value={inputValueIDCA || ''}
-                  onChange={handleChangeIDCA}
-                  InputProps={{
-                    readOnly: request !== "get" ? false : true,
-                    required: request === "post" ? true : false
-                  }}
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateRangePicker
+                    value={dateRange}
+                    onChange={handleDateRangeChange}
+                    readOnly={request === "get" ? true : false}
+                    renderInput={(startProps, endProps) => (
+                      <>
+                        <DatePicker
+                          {...startProps}
+                          id="data_comeco"
+                          name="data_comeco"
+                          label="Data de Começo"
+                          renderInput={(startProps) => <input {...startProps.inputProps} />}
+                        />
+                        <DatePicker
+                          {...endProps}
+                          id="data_colheita"
+                          name="data_colheita"
+                          label="Data de Colheita"
+                          renderInput={(endProps) => <input {...endProps.inputProps} />}
+                        />
+                      </>
+                    )}
+                    localeText={{ start: 'Check-in', end: 'Check-out' }}
+                  />
+                </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="id_cultura"
-                  label="ID Cultura"
-                  type="id_cultura"
+                <Autocomplete
+                  disablePortal
+                  id="id_cultura_anterior"
+                  options={data2}
+                  getOptionLabel={(option) => option.nome}
+                  value={inputValueCA}
+                  onChange = {handleChangeCA}
+                  sx={{ width: 300 }}
+                  renderInput={(params) => <TextField {...params} label="Cultura Anterior" />}
+                  readOnly={request === "get" ? true : false}
+                  required= {request === "post" ? true : false}
+                  />
+              </Grid>
+              <Grid item xs={12}>
+                <Autocomplete
+                  disablePortal
                   id="id_cultura"
-                  autoComplete="0"
-                  value={inputValueIDC || ''}
-                  onChange={handleChangeIDC}
-                  InputProps={{
-                    readOnly: request !== "get" ? false : true,
-                    required: request === "post" ? true : false
-                  }}
-                />
+                  options={data2}
+                  getOptionLabel={(option) => option.nome}
+                  value={inputValueC}
+                  onChange = {handleChangeC}
+                  sx={{ width: 300 }}
+                  renderInput={(params) => <TextField {...params} label="Cultura" />}
+                  readOnly={request === "get" ? true : false}
+                  required= {request === "post" ? true : false}
+                  />
               </Grid>
               <Grid item xs={12}>
                 <TextField

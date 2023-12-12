@@ -6,14 +6,19 @@ import { Box, Container, Grid, Paper, createTheme, ThemeProvider, Typography, Cs
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AppBar from '../SideBar/AppBar';
 import Drawer from '../SideBar/Drawer';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const defaultTheme = createTheme();
 
 export default function PlantioForm() {
   const [data, setData] = useState([]);
+  const [data2, setData2] = React.useState([]);
+  const [data3, setData3] = React.useState([]);
+  const [objetoEncontrado, setObjetoEncontrado] = React.useState(null);
+  const [objetoEncontrado2, setObjetoEncontrado2] = React.useState(null);
   const [inputValueN, setInputValueN] = useState('');
-  const [inputValueC, setInputValueC] = useState('');
-  const [inputValueP, setInputValueP] = useState('');
+  const [inputValueCA, setInputValueCA] = useState('');
+  const [inputValueP, setInputValueP] = useState(null);
 
   const location = useLocation();
 
@@ -25,12 +30,12 @@ export default function PlantioForm() {
     setInputValueN(event.target.value);
   };
 
-  const handleChangeC = (event) => {
-    setInputValueC(event.target.value);
+  const handleChangeCA = (event, newValue) => {
+    setInputValueCA(newValue);
   };
 
-  const handleChangeP = (event) => {
-    setInputValueP(event.target.value);
+  const handleChangeP = (event, newValue) => {
+    setInputValueP(newValue);
   };
 
   useEffect(() => {
@@ -46,15 +51,61 @@ export default function PlantioForm() {
     }
     
   }, [id, request]);
+
+  React.useEffect(() => {
+      axios.get(`http://localhost:8080/planejamento/Nome`)
+      .then(response => {
+        console.log(response.data);
+        setData2(response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao carregar os dados da API:', error);
+      });
+  }, [request]);
+
+  React.useEffect(() => {
+    axios.get('http://localhost:8080/cultura/Nome')
+      .then(response => {
+        console.log(response.data);
+        setData3(response.data)
+      })
+      .catch(error => {
+        console.error('Erro ao carregar os dados da API:', error);
+      });
+  }, [request]);
+
+  const encontrarObjetoPorIdCulturaAnte = (idCulturaAnterior, array) => {
+    return array.find(obj => obj.id === idCulturaAnterior);
+  };
+
+  const encontrarObjetoPorIdPlanejamento = (idPlanejamento, array) => {
+    return array.find(obj => obj.id === idPlanejamento);
+  };
+
+  React.useEffect(() => {
+    const objeto = encontrarObjetoPorIdCulturaAnte(data.id_cultura_anterior, data3);
+    console.log(objeto);
+    setObjetoEncontrado2(objeto);
+  }, [data, data3]);
+
+  React.useEffect(() => {
+    const objeto = encontrarObjetoPorIdPlanejamento(data.id_planejamento, data2);
+    console.log(objeto);
+    setObjetoEncontrado(objeto);
+  }, [data, data2]);
   
   useEffect(() => {
     if(request !== 'post'){
       setInputValueN(data.nome);
-      setInputValueC(data.id_planejamento);
-      setInputValueP(data.id_cultura_anterior);
+      if(objetoEncontrado2 !== null){
+        setInputValueCA(objetoEncontrado2);
+      }
+      if(objetoEncontrado !== null){
+        setInputValueP(objetoEncontrado);
+      }
     }
     
-  }, [data, request]);
+  }, [data, request, objetoEncontrado, objetoEncontrado2]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -62,8 +113,8 @@ export default function PlantioForm() {
     const formData = {
       id: data.get('id'),
       nome: data.get('nome'),
-      id_cultura_anterior: data.get('id_cultura_anterior'),
-      id_planejamento: data.get('id_planejamento'),
+      id_cultura_anterior: inputValueCA.id,
+      id_planejamento: inputValueP.id,
     };
 
     switch (request) {
@@ -183,33 +234,32 @@ export default function PlantioForm() {
                           />
                         </Grid>
                         <Grid item xs={12}>
-                          <TextField
-                            fullWidth
+                          <Autocomplete
+                            disablePortal
                             id="id_cultura_anterior"
-                            label="Preço de Venda"
-                            name="id_cultura_anterior"
-                            value={inputValueC || ''}
-                            onChange={handleChangeC}
-                            InputProps={{
-                              readOnly: request !== "get" ? false : true,
-                              required: request === "post" ? true : false
-                            }}
-                          />
+                            options={data3}
+                            getOptionLabel={(option) => option.nome}
+                            value={inputValueCA}
+                            onChange = {handleChangeCA}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Cultura Anterior" />}
+                            readOnly={request === "get" ? true : false}
+                            required= {request === "post" ? true : false}
+                            />
                         </Grid>
                         <Grid item xs={12}>
-                          <TextField
-                            fullWidth
-                            name="id_planejamento"
-                            label="ID_Planejamento"
-                            type="id_planejamento"
+                          <Autocomplete
+                            disablePortal
                             id="id_planejamento"
-                            value={inputValueP || ''}
-                            onChange={handleChangeP}
-                            InputProps={{
-                              readOnly: request !== "get" ? false : true,
-                              required: request === "post" ? true : false
-                            }}
-                          />
+                            options={data2}
+                            getOptionLabel={(option) => option.nome_etapa}
+                            value={inputValueP}
+                            onChange = {handleChangeP}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Planejamento" />}
+                            readOnly={request === "get" ? true : false}
+                            required= {request === "post" ? true : false}
+                            />
                         </Grid>
                       </Grid>
                       {request !== 'get' && (
